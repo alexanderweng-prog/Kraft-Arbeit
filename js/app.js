@@ -70,7 +70,7 @@
     const txt = el('div', {},
       el('p', { class: 'eyebrow' }, 'Physik · Sekundarstufe I'),
       el('h1', {}, 'Kraft & Arbeit'),
-      el('p', { class: 'lead' }, 'Lerne in acht Modulen, was Kräfte bewirken, wie man sie misst und wann in der Physik Arbeit verrichtet wird – mit Erklärfilmen, Laboren zum Ausprobieren und vielen Aufgaben.'),
+      el('p', { class: 'lead' }, 'Lerne in sieben Modulen, was Kräfte bewirken, wie man sie misst und wann in der Physik Arbeit verrichtet wird – mit Erklärfilmen, Laboren zum Ausprobieren und vielen Aufgaben.'),
     );
     const next = MODS.find(mm => modProgress(mm).pct < 100);
     const row = el('div', { class: 'btn-row' },
@@ -101,7 +101,7 @@
     });
     const tst = KA.state.test;
     list.appendChild(el('a', { class: 'mcard' + (tst ? ' done' : ''), href: '#test' },
-      el('span', { class: 'num' }, tst ? '✓' : '9'),
+      el('span', { class: 'num' }, tst ? '✓' : String(MODS.length + 1)),
       el('div', {}, el('h3', {}, 'Abschlusstest'), el('p', { class: 'sub' }, '15 gemischte Fragen aus allen Modulen'),
         el('div', { class: 'meta' }, el('span', {}, 'ca. 12 min'), tst ? el('span', {}, `bestes Ergebnis: ${tst.correct}/${tst.total}`) : el('span', {}, 'noch nicht gemacht')))));
     app.appendChild(list);
@@ -295,7 +295,6 @@
       ['Federkraft (Hooke)', 'F = D · s', 'D: Federkonstante in N/cm, gilt bis zur Elastizitätsgrenze'],
       ['Kraftpfeil', 'Länge = F : Massstab', 'z. B. 1 cm ≙ 10 N'],
       ['Kräfte auf einer Linie', 'F<sub>res</sub> = F₁ + F₂ bzw. F₁ − F₂', 'Gleichgewicht: F<sub>res</sub> = 0 N'],
-      ['Reibung (Zusatz)', 'F<sub>R</sub> = μ · F<sub>N</sub>', 'Haftreibung > Gleitreibung > Rollreibung'],
       ['Arbeit', 'W = F · s', '1 J = 1 N · 1 m = 1 Nm · Kraft und Weg in gleicher Richtung'],
       ['Hubarbeit', 'W = F<sub>G</sub> · h = m · g · h', 'nur der Höhenunterschied zählt'],
       ['Spannarbeit (Zusatz)', 'W = ½ · F · s', 'F: Endkraft der Feder'],
@@ -314,11 +313,10 @@
   function renderSources() {
     const yt = (q) => 'https://www.youtube.com/results?search_query=' + encodeURIComponent(q);
     const links = [
-      ['PhET: Kräfte und Bewegung – Grundlagen', 'https://phet.colorado.edu/de/simulations/forces-and-motion-basics', 'Tauziehen, Reibung, Beschleunigung (Universität Colorado, kostenlos)'],
+      ['PhET: Kräfte und Bewegung – Grundlagen', 'https://phet.colorado.edu/de/simulations/forces-and-motion-basics', 'Tauziehen, Beschleunigung (Universität Colorado, kostenlos)'],
       ['PhET: Hookesches Gesetz', 'https://phet.colorado.edu/de/simulations/hookes-law', 'Federn dehnen und Federkonstante untersuchen'],
       ['PhET: Massen und Federn – Grundlagen', 'https://phet.colorado.edu/de/simulations/masses-and-springs-basics', 'Gewichte an Federn, auch auf anderen Planeten'],
       ['PhET: Balancieren', 'https://phet.colorado.edu/de/simulations/balancing-act', 'Hebelgesetz an der Wippe'],
-      ['PhET: Reibung', 'https://phet.colorado.edu/de/simulations/friction', 'Reibung auf Teilchenebene'],
       ['LEIFIphysik: Mechanik', 'https://www.leifiphysik.de/mechanik', 'Erklärungen, Versuche und Aufgaben'],
       ['YouTube-Suche: Kraft einfach erklärt', yt('Kraft Physik einfach erklärt Newton'), 'Erklärvideos verschiedener Kanäle'],
       ['YouTube-Suche: Masse und Gewichtskraft', yt('Masse Gewichtskraft Unterschied Physik'), ''],

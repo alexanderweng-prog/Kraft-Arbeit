@@ -213,68 +213,6 @@
     }
   };
 
-  /* ---------- 4. Reibungs-Labor ---------- */
-  S.reib = {
-    title: 'Reibungs-Labor', task: 'Nimm die 5-kg-Kiste auf Holz. Erhöhe die Zugkraft langsam (Kiste zuerst stoppen). Ab welcher Kraft rutscht sie los?',
-    mount(root, solved) {
-      const surf = { Holz: { h: 0.5, g: 0.3, col: '#b07a45' }, Teppich: { h: 0.7, g: 0.55, col: '#7a6aa8' }, Eis: { h: 0.1, g: 0.05, col: '#9fd3e6' }, Rollen: { h: 0.03, g: 0.03, col: '#888', roll: true } };
-      const st = { s: 'Holz', m: 5, F: 0, v: 0, x: 0, moving: false };
-      const { cvo, right } = layout(root, 'Kiste wird über eine Unterlage gezogen');
-      const ro = el('div', { class: 'readout' });
-      const fSl = slider('rb-F', 'Zugkraft F', 0, 80, 1, 0, v => v + ' N', v => { st.F = v; });
-      const bStop = el('button', { class: 'btn ghost small', type: 'button' }, 'Kiste anhalten (F = 0)');
-      bStop.addEventListener('click', () => { st.v = 0; st.moving = false; fSl.set(0); });
-      right.append(
-        seg('Unterlage', Object.keys(surf).map(k => ({ t: k === 'Rollen' ? 'Holz mit Rollen' : k, v: k })), 'Holz', v => { st.s = v; st.v = 0; st.moving = false; fSl.set(0); }),
-        seg('Masse der Kiste', [{ t: '2 kg', v: 2 }, { t: '5 kg', v: 5 }, { t: '10 kg', v: 10 }], 5, v => { st.m = v; st.v = 0; st.moving = false; fSl.set(0); }),
-        fSl, bStop, ro);
-      let done = false;
-      KA.loop((dt, now) => {
-        const sf = surf[st.s], FN = st.m * G;
-        const Fh = sf.h * FN, Fg = sf.g * FN;
-        let FR;
-        if (!st.moving) {
-          if (st.F > Fh) { st.moving = true; KA.sfx('thud'); if (!done && st.s === 'Holz' && st.m === 5) { done = true; solved(); } }
-          FR = Math.min(st.F, Fh);
-        }
-        if (st.moving) {
-          FR = Fg;
-          const a = (st.F - FR) / st.m;
-          st.v += a * dt;
-          if (st.v <= 0) { st.v = 0; st.moving = false; }
-          st.v = Math.min(st.v, 6);
-          st.x += st.v * dt * 80;
-        }
-        const state = st.moving ? (sf.roll ? 'rollt' : 'gleitet') : 'haftet (in Ruhe)';
-        ro.innerHTML = `Normalkraft F<sub>N</sub> = ${fmt(FN, 1)} N<br>Zugkraft: <b>${st.F} N</b><br>Reibungskraft: <span class="w">${fmt(FR, 1)} N</span><br>Zustand: ${state}`;
-        const c = cvo.begin(), ctx = cvo.ctx;
-        const gy = 330;
-        ctx.save(); ctx.fillStyle = sf.col; ctx.globalAlpha = .55; ctx.fillRect(0, gy, 800, 60); ctx.restore();
-        ctx.save(); ctx.strokeStyle = c.ink; ctx.globalAlpha = .35; ctx.lineWidth = 2;
-        const off = -(st.x % 40);
-        for (let x = off; x < 800; x += 40) { ctx.beginPath(); ctx.moveTo(x, gy + 10); ctx.lineTo(x + 20, gy + 50); ctx.stroke(); }
-        ctx.restore();
-        D.ground(ctx, gy);
-        const bw = 70 + st.m * 5, bh = 60 + st.m * 3;
-        const bx = 300 - bw / 2;
-        const by = sf.roll ? gy - bh - 16 : gy - bh;
-        D.box(ctx, bx, by, bw, bh, { crate: true, label: st.m + ' kg' });
-        if (sf.roll) { ctx.save(); ctx.fillStyle = c.ink; const rr = st.x / 8; [bx + 18, bx + bw - 18].forEach(x => { ctx.beginPath(); ctx.arc(x, gy - 8, 8, 0, 7); ctx.fill(); ctx.strokeStyle = c.surface; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(x, gy - 8); ctx.lineTo(x + Math.cos(rr) * 7, gy - 8 + Math.sin(rr) * 7); ctx.stroke(); }); ctx.restore(); }
-        // Seil + Kraftmesser + Person
-        const ry = by + bh / 2;
-        D.rope(ctx, [[bx + bw, ry], [520, ry]]);
-        ctx.save(); ctx.fillStyle = c.scale; D.roundRect(ctx, 520, ry - 10, 80, 20, 6); ctx.fill(); ctx.restore();
-        D.text(ctx, st.F + ' N', 560, ry + 5, { align: 'center', size: 12, font: 'mono', weight: 700, color: '#1a1a1a' });
-        D.person(ctx, 650, gy, { dir: -1, lean: Math.min(25, st.F / 3), armR: 5, step: st.moving ? Math.sin(now * 8) * 6 : 0 });
-        const sc = 2.2;
-        if (st.F) D.arrow(ctx, bx + bw, by - 20, bx + bw + st.F * sc, by - 20, { label: 'F = ' + st.F + ' N', ly: by - 32 });
-        if (FR > 0.05) D.arrow(ctx, bx, gy - 6, bx - FR * sc, gy - 6, { label: 'F_R = ' + fmt(FR, 1) + ' N', ly: gy + 30, color: c.work });
-        D.text(ctx, state, 300, 60, { align: 'center', font: 'display', size: 26, color: st.moving ? c.work : c.ink });
-        D.text(ctx, `${KA.fmt(st.v, 1)} m/s`, 300, 90, { align: 'center', font: 'mono', size: 15, color: c.muted });
-      });
-    }
-  };
-
   /* ---------- 5. Hubarbeit ---------- */
   S.hub = {
     title: 'Hub-Labor', task: 'Hebe einen Zementsack mit 20 kg auf 3 m Höhe. Lies die Hubarbeit ab.',

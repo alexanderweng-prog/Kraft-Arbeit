@@ -401,69 +401,6 @@
     ]
   };
 
-  /* ===== Film 6: Reibung ===== */
-  F.f6 = {
-    id: 'f6', title: 'Reibung', scenes: [
-      { say: 'Unter der Lupe sind auch glatte Flächen rau. Die kleinen Unebenheiten verhaken sich ineinander. Das ist die Ursache der Reibung.',
-        draw(ctx, t, p, c) {
-          title(ctx, 'Unter der Lupe', c);
-          const off = Math.sin(t * 2) * 6;
-          ctx.save(); ctx.fillStyle = c.accent; ctx.beginPath(); ctx.moveTo(150 + off, 120); ctx.lineTo(650 + off, 120);
-          for (let x = 650; x >= 150; x -= 25) ctx.lineTo(x + off, 230 + ((x / 25) % 2 ? 14 : 0)); ctx.closePath(); ctx.fill();
-          ctx.fillStyle = c.muted; ctx.beginPath(); ctx.moveTo(100, 360); ctx.lineTo(700, 360);
-          for (let x = 700; x >= 100; x -= 25) ctx.lineTo(x, 248 - ((x / 25) % 2 ? 0 : 16)); ctx.closePath(); ctx.fill(); ctx.restore();
-          T(ctx, 'Körper', 400, 175, { align: 'center', color: '#fff', weight: 700 });
-          T(ctx, 'Unterlage', 400, 320, { align: 'center', color: '#fff', weight: 700 });
-          T(ctx, 'Unebenheiten verhaken sich', 400, 410, { align: 'center', size: 18, color: c.muted });
-        } },
-      { say: 'Haftreibung: Du ziehst an einer Kiste, aber sie bleibt liegen. Die Haftreibung hält dagegen, gleich gross wie deine Zugkraft, bis zu einem Höchstwert.',
-        draw(ctx, t, p, c) {
-          title(ctx, 'Haftreibung', c);
-          D.ground(ctx, 340);
-          const F = Math.min(1, p * 1.2) * 60;
-          D.box(ctx, 300, 250, 100, 90, { crate: true });
-          D.rope(ctx, [[400, 300], [520, 300]]);
-          D.person(ctx, 600, 340, { dir: -1, lean: 15, armR: 10 });
-          D.arrow(ctx, 400, 280, 400 + F * 2, 280, { label: `${Math.round(F)} N`, ly: 268 });
-          D.arrow(ctx, 300, 334, 300 - F * 2, 334, { label: `${Math.round(F)} N`, ly: 322, color: c.work });
-          T(ctx, 'Zugkraft = Haftreibung → Kiste bleibt in Ruhe', 400, 410, { align: 'center', size: 18, color: c.muted });
-        } },
-      { say: 'Wird die Zugkraft grösser als die maximale Haftreibung, reisst die Kiste los. Jetzt wirkt die Gleitreibung. Sie ist kleiner als die Haftreibung. Darum ist Anschieben schwerer als Weiterschieben.',
-        draw(ctx, t, p, c) {
-          title(ctx, 'Gleitreibung', c);
-          D.ground(ctx, 340);
-          const move = D.seg(p, .25, 1) * 200;
-          D.box(ctx, 200 + move, 250, 100, 90, { crate: true });
-          D.person(ctx, 420 + move, 340, { dir: -1, lean: 15, armR: 10 });
-          D.rope(ctx, [[300 + move, 300], [380 + move, 300]]);
-          const F = p < .25 ? 72 : 45;
-          D.arrow(ctx, 300 + move, 280, 300 + move + F * 2, 280, { label: `${F} N`, ly: 268 });
-          D.arrow(ctx, 200 + move, 334, 200 + move - 90, 334, { label: '45 N', ly: 322, color: c.work });
-          T(ctx, 'Haftreibung (max. 72 N)  >  Gleitreibung (45 N)', 400, 410, { align: 'center', size: 18, font: 'mono' });
-        } },
-      { say: 'Am kleinsten ist die Rollreibung. Mit Rädern oder Rollen braucht es nur noch einen Bruchteil der Kraft. Darum war das Rad eine der wichtigsten Erfindungen.',
-        draw(ctx, t, p, c) {
-          title(ctx, 'Rollreibung', c);
-          D.ground(ctx, 360);
-          const x = 160 + D.seg(p, .1, 1) * 280;
-          D.box(ctx, x, 260, 100, 80, { crate: true });
-          ctx.save(); ctx.fillStyle = c.ink; ctx.beginPath(); ctx.arc(x + 20, 350, 10, 0, 7); ctx.arc(x + 80, 350, 10, 0, 7); ctx.fill(); ctx.restore();
-          D.arrow(ctx, x + 100, 300, x + 140, 300, { label: '5 N', ly: 288 });
-          const bars = [['Haftreibung', 72], ['Gleitreibung', 45], ['Rollreibung', 5]];
-          bars.forEach((b, i) => { T(ctx, b[0], 600, 130 + i * 40, { align: 'right', size: 15 }); ctx.save(); ctx.fillStyle = c.work; ctx.fillRect(610, 116 + i * 40, b[1] * 2 * D.seg(p, .3, .7), 18); ctx.restore(); });
-        } },
-      { say: 'Reibung ist oft nützlich: Ohne Reibung könntest du nicht gehen, nicht bremsen und in der Turnhalle nicht stoppen. Sie kann aber auch schaden: Sie erzeugt Wärme und Abnützung, zum Beispiel an Bremsen oder Lagern.',
-        draw(ctx, t, p, c) {
-          title(ctx, 'Nützlich oder schädlich?', c);
-          ctx.save(); ctx.fillStyle = c.ok; ctx.globalAlpha = .12; ctx.fillRect(40, 90, 350, 320); ctx.fillStyle = c.bad; ctx.fillRect(410, 90, 350, 320); ctx.restore();
-          T(ctx, 'nützlich', 215, 125, { align: 'center', font: 'display', size: 26, color: c.ok });
-          T(ctx, 'schädlich', 585, 125, { align: 'center', font: 'display', size: 26, color: c.bad });
-          ['Gehen und Laufen', 'Bremsen am Velo', 'Hallenschuhe im Volleyball', 'Schrauben halten', 'Streichholz anzünden'].forEach((s, i) => T(ctx, '+ ' + s, 70, 180 + i * 40, { size: 18, alpha: D.seg(p, i * .08, i * .08 + .1) }));
-          ['Abnützung der Reifen', 'Wärme im Motor', 'Bremsbeläge verschleissen', 'Schlitten wird langsamer'].forEach((s, i) => T(ctx, '– ' + s, 440, 180 + i * 40, { size: 18, alpha: D.seg(p, .4 + i * .08, .5 + i * .08) }));
-        } }
-    ]
-  };
-
   /* ===== Film 7: Arbeit ===== */
   F.f7 = {
     id: 'f7', title: 'Arbeit = Kraft mal Weg', scenes: [
@@ -520,12 +457,12 @@
           D.arrow(ctx, x + 28, 300, x + 28, 230, { label: 'F', lx: x + 50 });
           D.arrow(ctx, 160, 420, x + 28, 420, { color: c.work, width: 4, label: 's', ly: 410 });
         } },
-      { say: 'Je nach Situation sprechen wir von verschiedenen Arbeitsformen: Hubarbeit beim Heben, Reibungsarbeit beim Schieben gegen die Reibung, Spannarbeit beim Spannen einer Feder und Beschleunigungsarbeit beim Schnellermachen.',
+      { say: 'Je nach Situation sprechen wir von verschiedenen Arbeitsformen: Hubarbeit beim Heben, Spannarbeit beim Spannen einer Feder und Beschleunigungsarbeit beim Schnellermachen.',
         draw(ctx, t, p, c) {
           title(ctx, 'Arbeitsformen', c);
-          const items = [['Hubarbeit', 'W = F_G · h'], ['Reibungsarbeit', 'W = F_R · s'], ['Spannarbeit', 'Feder spannen'], ['Beschleunigungsarbeit', 'schneller machen']];
+          const items = [['Hubarbeit', 'W = F_G · h'], ['Spannarbeit', 'Feder spannen'], ['Beschleunigungsarbeit', 'schneller machen']];
           items.forEach((it, i) => {
-            const x = 110 + (i % 2) * 330, y = 130 + Math.floor(i / 2) * 150;
+            const x = i === 2 ? 275 : 110 + (i % 2) * 330, y = 130 + Math.floor(i / 2) * 150;
             const a = D.seg(p, i * .15, i * .15 + .2);
             ctx.save(); ctx.globalAlpha = a; ctx.strokeStyle = c.work; ctx.lineWidth = 2; D.roundRect(ctx, x, y, 300, 110, 12); ctx.stroke(); ctx.restore();
             T(ctx, it[0], x + 20, y + 45, { font: 'display', size: 24, alpha: a });

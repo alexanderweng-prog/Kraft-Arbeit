@@ -247,56 +247,9 @@
     ]
   });
 
-  /* =============== Modul 6 =============== */
+  /* =============== Modul 6 (Arbeit) =============== */
   M.push({
-    id: 'm6', nr: 6, title: 'Reibung', sub: 'Haft-, Gleit- und Rollreibung', min: 13,
-    steps: [
-      { k: 'lesson', title: 'Warum es Reibung gibt', html: `
-        <p>Jede Oberfläche ist unter dem Mikroskop rau. Liegen zwei Körper aufeinander, verhaken sich die Unebenheiten. Die <b>Reibungskraft F<sub>R</sub></b> wirkt immer <b>gegen die Bewegungsrichtung</b>.</p>
-        <ul>
-          <li><b>Haftreibung</b>: Der Körper ist in Ruhe. Sie verhindert, dass er losrutscht.</li>
-          <li><b>Gleitreibung</b>: Der Körper rutscht über die Unterlage.</li>
-          <li><b>Rollreibung</b>: Der Körper rollt (Rad, Kugel).</li>
-        </ul>
-        ${merk('Merke', 'Haftreibung > Gleitreibung > Rollreibung. Darum ist Anschieben schwerer als Weiterschieben, und darum sind Räder so praktisch.')}` },
-      { k: 'film', film: 'f6' },
-      { k: 'lesson', title: 'Wovon hängt die Reibung ab?', html: `
-        <ul>
-          <li>von der <b>Beschaffenheit der Oberflächen</b> (rau, glatt, nass, geölt, Gummi, Eis …),</li>
-          <li>von der <b>Kraft, mit der der Körper auf die Unterlage drückt</b> (Normalkraft F<sub>N</sub>). Doppelt so schwer bedeutet etwa doppelt so viel Reibung.</li>
-        </ul>
-        <p>Die Grösse der Auflagefläche spielt dagegen <b>kaum eine Rolle</b>.</p>
-        <p><b>Zusatz für Profis:</b> Man kann die Reibung berechnen:</p>
-        ${fbox('F<sub>R</sub> = μ · F<sub>N</sub>', 'μ (sprich «mü»): Reibungszahl, ohne Einheit · F_N: Normalkraft (auf ebenem Boden = Gewichtskraft)')}
-        <p>Richtwerte: Holz auf Holz Haftreibung μ ≈ 0,5, Gleitreibung μ ≈ 0,3. Stahl auf Eis μ ≈ 0,02.</p>` },
-      { k: 'sim', sim: 'reib' },
-      { k: 'ex', ex: { id: 'm6-e1', type: 'num', q: 'Ab welcher Zugkraft rutschte die 5-kg-Kiste auf Holz im Labor los? (Ganze Newton reichen.)', answer: 25, unit: 'N', label: 'F', tol: 1.1,
-        explain: 'Die maximale Haftreibung beträgt 0,5 · 49 N ≈ 24,5 N. Bei 25 N reisst die Kiste los. Danach braucht es nur noch die Gleitreibung von etwa 14,7 N.' } },
-      { k: 'ex', ex: { id: 'm6-e2', type: 'order', q: 'Ordne die Reibungsarten von der <b>grössten</b> zur <b>kleinsten</b> Kraft.', items: ['Haftreibung', 'Gleitreibung', 'Rollreibung'],
-        explain: 'Haftreibung > Gleitreibung > Rollreibung.' } },
-      { k: 'ex', ex: { id: 'm6-e3', type: 'sort', q: 'Ist die Reibung hier nützlich oder schädlich?', cats: ['nützlich', 'schädlich'],
-        items: [{ t: 'Hallenschuhe stoppen dich beim Block', c: 0 }, { t: 'Reifen nützen sich ab', c: 1 }, { t: 'Velobremse', c: 0 }, { t: 'Motorteile werden heiss', c: 1 }, { t: 'Ein Nagel hält im Holz', c: 0 }, { t: 'Ein Schlitten wird langsamer, obwohl du weiterfahren willst', c: 1 }, { t: 'Ein Streichholz entzünden', c: 0 }, { t: 'Eine Schublade klemmt', c: 1 }],
-        explain: 'Ohne Reibung könnte man weder gehen noch bremsen. Gleichzeitig verursacht sie Abnützung und Wärme.' } },
-      { k: 'ex', ex: { id: 'm6-e4', type: 'mc', q: 'Warum streut man im Winter Splitt auf vereiste Wege?', options: ['Damit die Reibung zwischen Schuh und Boden grösser wird.', 'Damit das Eis schneller schmilzt.', 'Damit die Gewichtskraft kleiner wird.', 'Damit die Reibung kleiner wird.'], correct: 0,
-        explain: 'Splitt macht die Oberfläche rau, die Haftreibung steigt. (Salz würde das Eis schmelzen – Splitt nicht.)' } },
-      { k: 'ex', ex: { id: 'm6-e5', type: 'mc', q: 'Eine Kiste wird mit Büchern doppelt so schwer gemacht. Was passiert mit der Gleitreibung?', options: ['Sie wird etwa doppelt so gross.', 'Sie bleibt gleich.', 'Sie wird halb so gross.', 'Sie wird viermal so gross.'], correct: 0,
-        explain: 'Die Reibung ist proportional zur Normalkraft: doppelte Gewichtskraft – doppelte Reibung.' } },
-      { k: 'ex', ex: { id: 'm6-e6', type: 'tf', q: 'Richtig oder falsch?', items: [
-        { t: 'Die Reibung hängt stark von der Grösse der Auflagefläche ab.', a: false },
-        { t: 'Öl zwischen zwei Metallteilen verringert die Reibung.', a: true },
-        { t: 'Ohne Reibung könnte man besser gehen.', a: false },
-        { t: 'Die Reibungskraft wirkt gegen die Bewegungsrichtung.', a: true }],
-        explain: 'Beim Gehen stösst du dich mit Hilfe der Haftreibung vom Boden ab. Ohne Reibung würdest du ausrutschen wie auf Glatteis.' } },
-      { k: 'ex', ex: { id: 'm6-e7', type: 'num', tag: 'Zusatz', q: 'Ein Schlitten drückt mit F<sub>N</sub> = 400 N auf den Schnee. Die Gleitreibungszahl ist μ = 0,05. Wie gross ist die Reibungskraft?', answer: 20, unit: 'N', label: 'F_R',
-        hint: 'F_R = μ · F_N', explain: 'F<sub>R</sub> = 0,05 · 400 N = 20 N' } },
-      { k: 'ex', ex: { id: 'm6-e8', type: 'cloze', text: 'Solange ein Körper ruht, wirkt die {Haftreibung}. Rutscht er, wirkt die {Gleitreibung}. Am kleinsten ist die {Rollreibung}. Die Reibung wird grösser, wenn der Körper {stärker} auf die Unterlage drückt.',
-        extra: ['schwächer', 'Federkraft'], explain: 'Haft > Gleit > Roll. Mehr Anpresskraft – mehr Reibung.' } }
-    ]
-  });
-
-  /* =============== Modul 7 =============== */
-  M.push({
-    id: 'm7', nr: 7, title: 'Mechanische Arbeit', sub: 'W = F · s, Joule, Hubarbeit', min: 16,
+    id: 'm7', nr: 6, title: 'Mechanische Arbeit', sub: 'W = F · s, Joule, Hubarbeit', min: 16,
     steps: [
       { k: 'lesson', title: 'Arbeit in der Physik', html: `
         <p>Im Alltag ist «Arbeit» alles, was anstrengt. In der Physik ist Arbeit genau festgelegt:</p>
@@ -314,7 +267,6 @@
         <div class="table-wrap"><table class="data">
           <tr><th>Arbeitsform</th><th>Formel</th><th>Beispiel</th></tr>
           <tr><td style="text-align:left">Hubarbeit</td><td style="text-align:left" class="mono">W = F<sub>G</sub> · h = m · g · h</td><td style="text-align:left">Schulsack in den 2. Stock tragen</td></tr>
-          <tr><td style="text-align:left">Reibungsarbeit</td><td style="text-align:left" class="mono">W = F<sub>R</sub> · s</td><td style="text-align:left">Kiste über den Boden schieben</td></tr>
           <tr><td style="text-align:left">Spannarbeit</td><td style="text-align:left" class="mono">W = ½ · F · s</td><td style="text-align:left">Bogen oder Feder spannen</td></tr>
           <tr><td style="text-align:left">Beschleunigungsarbeit</td><td style="text-align:left">–</td><td style="text-align:left">Ball abwerfen, Velo anfahren</td></tr>
         </table></div>
@@ -324,11 +276,9 @@
       { k: 'ex', ex: { id: 'm7-e1', type: 'num', q: 'Wie gross war die Hubarbeit, als du den 20-kg-Sack 3 m hoch gehoben hast?', answer: 588.6, unit: 'J', label: 'W', tol: 1.5,
         explain: 'W = m · g · h = 20 kg · 9,81 N/kg · 3 m = 588,6 J' } },
       { k: 'ex', ex: { id: 'm7-e2', type: 'sort', q: 'Wird hier (am genannten Körper) Arbeit im physikalischen Sinn verrichtet?', cats: ['Arbeit wird verrichtet', 'keine Arbeit'],
-        items: [{ t: 'Du steigst die Treppe hoch.', c: 0 }, { t: 'Du schiebst eine Kiste über den Boden.', c: 0 }, { t: 'Du spannst einen Bogen.', c: 0 }, { t: 'Du hältst eine Hantel ruhig über dem Kopf.', c: 1 },
+        items: [{ t: 'Du steigst die Treppe hoch.', c: 0 }, { t: 'Du ziehst einen Schlitten den Hang hinauf.', c: 0 }, { t: 'Du spannst einen Bogen.', c: 0 }, { t: 'Du hältst eine Hantel ruhig über dem Kopf.', c: 1 },
           { t: 'Du drückst gegen eine Hauswand.', c: 1 }, { t: 'Du löst Rechnungen im Kopf.', c: 1 }, { t: 'Du wirfst einen Ball hoch.', c: 0 }, { t: 'Du trägst eine Tasche auf ebenem Weg, ohne sie anzuheben.', c: 1 }],
         explain: 'Arbeit braucht Kraft UND Weg in Kraftrichtung. Beim Tragen auf gleicher Höhe zeigt die Haltekraft nach oben, der Weg ist waagrecht.' } },
-      { k: 'ex', ex: { id: 'm7-e3', type: 'num', q: 'Du schiebst eine Kiste <b>12 m</b> weit über den Boden. Die Reibungskraft beträgt <b>150 N</b>. Wie gross ist die Reibungsarbeit?', answer: 1800, unit: 'J', label: 'W',
-        explain: 'W = F<sub>R</sub> · s = 150 N · 12 m = 1800 J = 1,8 kJ' } },
       { k: 'ex', ex: { id: 'm7-e4', type: 'num', q: 'Du trägst deinen Schulsack (<b>6 kg</b>) vom Erdgeschoss in den 3. Stock. Jedes Stockwerk ist <b>3 m</b> hoch. Wie gross ist die Hubarbeit am Schulsack?', answer: 529.74, unit: 'J', label: 'W', tol: 1.5,
         hint: '3 Stockwerke · 3 m = Hubhöhe h', explain: 'h = 9 m, W = 6 kg · 9,81 N/kg · 9 m = 529,74 J' } },
       { k: 'ex', ex: { id: 'm7-e5', type: 'num', q: 'Ein Kran verrichtet an einer Palette mit <b>40 kg</b> eine Hubarbeit von <b>1200 J</b>. Wie hoch hat er sie gehoben?', answer: 3.06, unit: 'm', label: 'h', tol: 0.03,
@@ -344,9 +294,9 @@
     ]
   });
 
-  /* =============== Modul 8 =============== */
+  /* =============== Modul 7 (Kraftwandler) =============== */
   M.push({
-    id: 'm8', nr: 8, title: 'Kraftwandler und Goldene Regel', sub: 'Hebel, Rollen, Flaschenzug, schiefe Ebene', min: 20,
+    id: 'm8', nr: 7, title: 'Kraftwandler und Goldene Regel', sub: 'Hebel, Rollen, Flaschenzug, schiefe Ebene', min: 20,
     steps: [
       { k: 'lesson', title: 'Kraft sparen – aber keine Arbeit', html: `
         <p>Seit Jahrtausenden nutzen Menschen Hilfsmittel, um schwere Lasten zu bewegen: Hebel, Rollen, Flaschenzüge und schiefe Ebenen. Man nennt sie <b>Kraftwandler</b>.</p>
@@ -409,9 +359,9 @@
     { id: 't3', type: 'num', q: 'Gewichtskraft eines 8-kg-Hundes auf der Erde?', answer: 78.48, unit: 'N', label: 'F_G', tol: 0.5, explain: '8 kg · 9,81 N/kg = 78,48 N' },
     { id: 't4', type: 'mc', q: 'Auf dem Mond hat ein Körper …', options: ['die gleiche Masse, aber eine kleinere Gewichtskraft.', 'eine kleinere Masse und eine kleinere Gewichtskraft.', 'eine kleinere Masse, aber die gleiche Gewichtskraft.', 'die gleiche Masse und die gleiche Gewichtskraft.'], correct: 0, explain: 'Die Masse ist ortsunabhängig.' },
     { id: 't5', type: 'num', q: 'Eine Feder (D = 0,25 N/cm) wird um 8 cm gedehnt. Welche Kraft wirkt?', answer: 2, unit: 'N', label: 'F', explain: 'F = 0,25 N/cm · 8 cm = 2 N' },
-    { id: 't6', type: 'tf', q: 'Richtig oder falsch?', items: [{ t: 'Die Gewichtskraft ist eine Fernkraft.', a: true }, { t: 'Gleitreibung ist grösser als Haftreibung.', a: false }, { t: 'Kraft und Gegenkraft sind gleich gross.', a: true }], explain: 'Haftreibung > Gleitreibung.' },
+    { id: 't6', type: 'tf', q: 'Richtig oder falsch?', items: [{ t: 'Die Gewichtskraft ist eine Fernkraft.', a: true }, { t: 'Die Masse eines Körpers ist auf dem Mond kleiner.', a: false }, { t: 'Kraft und Gegenkraft sind gleich gross.', a: true }], explain: 'Die Masse ist überall gleich, nur die Gewichtskraft ändert sich.' },
     { id: 't7', type: 'num', q: 'Zwei Hunde ziehen an einem Seil in entgegengesetzte Richtungen: 230 N und 310 N. Resultierende Kraft?', answer: 80, unit: 'N', label: 'F_res', explain: '310 N − 230 N = 80 N' },
-    { id: 't8', type: 'mc', q: 'Warum rutscht man auf Glatteis leicht aus?', options: ['Die Haftreibung zwischen Schuh und Eis ist sehr klein.', 'Die Gewichtskraft ist auf Eis grösser.', 'Eis zieht die Füsse magnetisch an.', 'Auf Eis wirkt keine Gewichtskraft.'], correct: 0, explain: 'Wenig Reibung: Die Schuhe finden keinen Halt.' },
+    { id: 't8', type: 'num', q: 'Eine Feder verlängert sich bei 4 N um 10 cm. Wie gross ist die Federkonstante?', answer: 0.4, unit: 'N/cm', label: 'D', tol: 0.01, explain: 'D = F : s = 4 N : 10 cm = 0,4 N/cm' },
     { id: 't9', type: 'num', q: 'Hubarbeit: 25 kg werden 2 m hoch gehoben.', answer: 490.5, unit: 'J', label: 'W', tol: 1.5, explain: '25 · 9,81 · 2 = 490,5 J' },
     { id: 't10', type: 'mc', q: 'In welcher Situation wird physikalische Arbeit verrichtet?', options: ['Ein Gewichtheber stemmt die Hantel nach oben.', 'Ein Gewichtheber hält die Hantel ruhig oben.', 'Eine Statue steht auf ihrem Sockel.', 'Du drückst gegen einen fest verankerten Pfosten.'], correct: 0, explain: 'Nur beim Hochstemmen gibt es Kraft und Weg in gleicher Richtung.' },
     { id: 't11', type: 'num', q: 'Ein Schrank wird mit 120 N über 4 m geschoben. Arbeit?', answer: 480, unit: 'J', label: 'W', explain: '120 N · 4 m = 480 J' },
