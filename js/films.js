@@ -505,16 +505,14 @@
           title(ctx, 'Lose Rolle', c);
           D.ceiling(ctx, 250, 550, 70);
           const u = D.seg(p, .1, .8);
-          const h = u * 100;
-          const py = 280 - h;
-          D.pulley(ctx, 450, 110, 22);
-          D.pulley(ctx, 380, py, 26);
-          D.rope(ctx, [[354, 70], [354, py]]);
-          D.rope(ctx, [[406, py], [428, 110]]);
-          D.rope(ctx, [[472, 110], [472, 230 + u * 200 > 420 ? 420 : 230 + u * 200]]);
-          D.box(ctx, 345, py + 40, 70, 60, { crate: true, label: '600 N', lsize: 12 });
-          ctx.save(); ctx.strokeStyle = c.ink; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(380, py + 26); ctx.lineTo(380, py + 40); ctx.stroke(); ctx.restore();
-          D.arrow(ctx, 472, 250, 472, 330, { label: '300 N', lx: 525 });
+          const py = 280 - u * 70;
+          const endY = 190 + u * 140;
+          const tk = D.tackle(ctx, { n: 2, x0: 360, gap: 50, topY: 120, botY: py, endY });
+          ctx.save(); ctx.strokeStyle = c.ink; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(tk.hangX, 70); ctx.lineTo(tk.hangX, tk.hangY); ctx.stroke();
+          ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(tk.loadX, tk.loadY); ctx.lineTo(tk.loadX, tk.loadY + 10); ctx.stroke(); ctx.restore();
+          D.box(ctx, tk.loadX - 35, tk.loadY + 10, 70, 60, { crate: true, label: '600 N', lsize: 12 });
+          D.arrow(ctx, tk.endX, endY, tk.endX, endY + 60, { label: '300 N', lx: tk.endX + 50 });
+          ['1', '2'].forEach((s, i) => T(ctx, s, tk.seg(i) - 12, (120 + py) / 2 + 10, { align: 'center', size: 14, color: c.force, weight: 700 }));
           T(ctx, 'Seilweg 2 m · Hubhöhe 1 m', 640, 200, { align: 'center', font: 'mono', size: 15, color: c.muted });
           T(ctx, 'W = 300 N · 2 m = 600 J', 400, 430, { align: 'center', font: 'mono', size: 22, weight: 700, color: c.work });
         } },
@@ -523,17 +521,14 @@
           title(ctx, 'Flaschenzug (4 Seilstücke)', c);
           D.ceiling(ctx, 280, 520, 70);
           const u = D.seg(p, .1, .8);
-          const yTop = 120, yBot = 270 - u * 80;
-          ctx.save(); ctx.strokeStyle = c.ink; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(400, 70); ctx.lineTo(400, yTop); ctx.stroke(); ctx.restore();
-          D.rope(ctx, [[350, yTop], [350, yBot]]); D.rope(ctx, [[390, yTop], [390, yBot]]);
-          D.rope(ctx, [[410, yTop], [410, yBot]]); D.rope(ctx, [[450, yTop], [450, yBot]]);
-          D.rope(ctx, [[430, yTop - 20], [480, yTop - 6], [490, 250 + u * 160]]);
-          D.pulley(ctx, 370, yTop, 20); D.pulley(ctx, 430, yTop, 20);
-          D.pulley(ctx, 370, yBot, 20); D.pulley(ctx, 430, yBot, 20);
-          ctx.save(); ctx.strokeStyle = c.ink; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(400, yBot); ctx.lineTo(400, yBot + 34); ctx.stroke(); ctx.restore();
-          D.box(ctx, 365, yBot + 34, 70, 55, { crate: true, label: '600 N', lsize: 12 });
-          D.arrow(ctx, 490, 250 + u * 160, 490, Math.min(420, 320 + u * 160), { label: '150 N', lx: 545 });
-          ['1', '2', '3', '4'].forEach((n, i) => T(ctx, n, [350, 390, 410, 450][i] + (i < 2 ? -12 : 12), (yTop + yBot) / 2, { align: 'center', size: 14, color: c.force, weight: 700 }));
+          const yTop = 125, yBot = 270 - u * 40, endY = 180 + u * 160;
+          const tk = D.tackle(ctx, { n: 4, x0: 320, gap: 40, topY: yTop, botY: yBot, endY });
+          ctx.save(); ctx.strokeStyle = c.ink; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(tk.hangX, 70); ctx.lineTo(tk.hangX, tk.hangY); ctx.stroke();
+          ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(tk.loadX, tk.loadY); ctx.lineTo(tk.loadX, tk.loadY + 10); ctx.stroke(); ctx.restore();
+          D.box(ctx, tk.loadX - 35, tk.loadY + 10, 70, 55, { crate: true, label: '600 N', lsize: 12 });
+          D.arrow(ctx, tk.endX, endY, tk.endX, endY + 50, { label: '150 N', lx: tk.endX + 55 });
+          ['1', '2', '3', '4'].forEach((s, i) => T(ctx, s, tk.seg(i) - 11, (yTop + yBot) / 2, { align: 'center', size: 14, color: c.force, weight: 700 }));
+          T(ctx, 'Seilweg 4 m · Hubhöhe 1 m', 640, 200, { align: 'center', font: 'mono', size: 15, color: c.muted });
           T(ctx, 'W = 150 N · 4 m = 600 J', 400, 430, { align: 'center', font: 'mono', size: 22, weight: 700, color: c.work });
         } },
       { say: 'Ein Hebel: Drückst du am langen Ende, brauchst du weniger Kraft. Dafür bewegt sich dein Ende um einen längeren Weg als die Last.',

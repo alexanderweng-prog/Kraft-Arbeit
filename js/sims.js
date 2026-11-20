@@ -369,31 +369,23 @@
         D.ceiling(ctx, 150, 560, 40);
         const loadTop = 330 - st.s * PXM;
         D.ground(ctx, 400, 100, 700);
-        const nTop = Math.ceil(n / 2), nBot = Math.floor(n / 2);
-        const x0 = 300, gap = 44;
         if (n === 1) {
           D.pulley(ctx, 340, topY + 20, 30);
           ctx.save(); ctx.strokeStyle = c.ink; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(340, 40); ctx.lineTo(340, topY + 20); ctx.stroke(); ctx.restore();
-          D.rope(ctx, [[310, topY + 20], [310, loadTop]]);
-          D.rope(ctx, [[370, topY + 20], [370, 220 + st.s * PXM]]);
+          ctx.save(); ctx.strokeStyle = '#a0703a'; ctx.lineWidth = 3; ctx.lineCap = 'round';
+          ctx.beginPath(); ctx.moveTo(310, loadTop); ctx.lineTo(310, topY + 20); ctx.arc(340, topY + 20, 30, Math.PI, 0, false); ctx.lineTo(370, 220 + st.s * PXM); ctx.stroke(); ctx.restore();
           D.box(ctx, 270, loadTop, 80, 70, { crate: true, label: '600 N', lsize: 13 });
           D.arrow(ctx, 370, 220 + st.s * PXM, 370, 290 + st.s * PXM, { label: '600 N', lx: 420 });
         } else {
-          const botY = loadTop - 30;
-          ctx.save(); ctx.strokeStyle = c.ink; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(x0 + gap * (n - 1) / 2, 40); ctx.lineTo(x0 + gap * (n - 1) / 2, topY); ctx.stroke(); ctx.restore();
-          for (let i = 0; i < n; i++) D.rope(ctx, [[x0 + i * gap, topY + 10], [x0 + i * gap, botY]]);
-          ctx.save(); ctx.fillStyle = c.surface2; ctx.strokeStyle = c.ink; ctx.lineWidth = 2;
-          D.roundRect(ctx, x0 - 20, topY - 4, gap * (n - 1) + 40, 28, 8); ctx.fill(); ctx.stroke();
-          D.roundRect(ctx, x0 - 20 + (nBot < nTop ? 0 : 0), botY - 14, gap * (n - 1) + 40, 28, 8); ctx.fill(); ctx.stroke(); ctx.restore();
-          for (let i = 0; i < nTop; i++) D.pulley(ctx, x0 + gap * (2 * i + 0.5) * (n - 1) / Math.max(1, (2 * nTop - 1)), topY + 10, 12);
-          for (let i = 0; i < nBot; i++) D.pulley(ctx, x0 + gap * (n - 1) * (i + 0.5) / nBot, botY, 12);
-          const xr = x0 + gap * (n - 1) + 40;
-          D.rope(ctx, [[x0 + gap * (n - 1), topY + 10], [xr, topY + 10], [xr, 230 + st.s * PXM * Math.min(n, 2) / 2]]);
-          ctx.save(); ctx.strokeStyle = c.ink; ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(x0 + gap * (n - 1) / 2, botY + 14); ctx.lineTo(x0 + gap * (n - 1) / 2, loadTop); ctx.stroke(); ctx.restore();
-          D.box(ctx, x0 + gap * (n - 1) / 2 - 40, loadTop, 80, 70, { crate: true, label: '600 N', lsize: 13 });
+          const g = n === 6 ? 36 : 44, xs = 400 - g * n / 2;
+          const botY = loadTop - 36, tY = topY + 14;
           const fy = 230 + st.s * PXM * Math.min(n, 2) / 2;
-          D.arrow(ctx, xr, fy, xr, fy + 600 / n * 0.12 + 20, { label: fmt(600 / n, 0) + ' N', lx: xr + 50 });
-          for (let i = 0; i < n; i++) D.text(ctx, String(i + 1), x0 + i * gap, (topY + botY) / 2 + 5, { align: 'center', size: 12, weight: 700, color: c.force, bg: c.surface });
+          const tk = D.tackle(ctx, { n, x0: xs, gap: g, topY: tY, botY, endY: fy });
+          ctx.save(); ctx.strokeStyle = c.ink; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(tk.hangX, 40); ctx.lineTo(tk.hangX, tk.hangY); ctx.stroke();
+          ctx.lineWidth = 3; ctx.beginPath(); ctx.moveTo(tk.loadX, tk.loadY); ctx.lineTo(tk.loadX, loadTop); ctx.stroke(); ctx.restore();
+          D.box(ctx, tk.loadX - 40, loadTop, 80, 70, { crate: true, label: '600 N', lsize: 13 });
+          D.arrow(ctx, tk.endX, fy, tk.endX, fy + 600 / n * 0.12 + 20, { label: fmt(600 / n, 0) + ' N', lx: tk.endX + 50 });
+          for (let i = 0; i < n; i++) D.text(ctx, String(i + 1), tk.seg(i), (tY + botY) / 2 + 5, { align: 'center', size: 12, weight: 700, color: c.force, bg: c.surface });
         }
         // Höhenmarke
         ctx.save(); ctx.strokeStyle = c.work; ctx.setLineDash([5, 5]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(120, 330 - PXM); ctx.lineTo(240, 330 - PXM); ctx.stroke(); ctx.restore();

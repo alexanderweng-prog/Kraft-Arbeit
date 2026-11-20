@@ -303,6 +303,42 @@
     ctx.stroke(); ctx.restore();
   };
 
+  /* Flaschenzug mit durchgehendem Seil.
+     n tragende Seilstücke (gerade Zahl). Das Seil ist oben an der festen Flasche befestigt,
+     läuft abwechselnd unter einer losen und über eine feste Rolle und endet frei rechts (endY).
+     Gibt die Position der Aufhängung oben, der Lastöse unten und des freien Seilendes zurück. */
+  D.tackle = function (ctx, o) {
+    const c = D.colors();
+    const n = o.n, x0 = o.x0, gap = o.gap, topY = o.topY, botY = o.botY, r = gap / 2;
+    const sx = i => x0 + i * gap;
+    const tops = [], bots = [];
+    for (let k = 0; k < n; k++) (k % 2 ? tops : bots).push(sx(k) + r);
+    const plateT = topY - r - 12, plateB = botY + r + 12;
+    ctx.save(); ctx.strokeStyle = c.ink; ctx.lineCap = 'round';
+    // Bügel der festen Flasche (oben) und der losen Flasche (unten)
+    ctx.lineWidth = 6;
+    ctx.beginPath(); ctx.moveTo(sx(0) - 6, plateT); ctx.lineTo(tops[tops.length - 1] + 6, plateT); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(bots[0] - 6, plateB); ctx.lineTo(bots[bots.length - 1] + 6, plateB); ctx.stroke();
+    ctx.lineWidth = 3;
+    tops.forEach(x => { ctx.beginPath(); ctx.moveTo(x, plateT); ctx.lineTo(x, topY); ctx.stroke(); });
+    bots.forEach(x => { ctx.beginPath(); ctx.moveTo(x, plateB); ctx.lineTo(x, botY); ctx.stroke(); });
+    ctx.restore();
+    tops.forEach(x => D.pulley(ctx, x, topY, r - 4));
+    bots.forEach(x => D.pulley(ctx, x, botY, r - 4));
+    // ein einziges, durchgehendes Seil
+    ctx.save(); ctx.strokeStyle = o.ropeColor || '#a0703a'; ctx.lineWidth = 3; ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    ctx.beginPath(); ctx.moveTo(sx(0), plateT); ctx.lineTo(sx(0), botY);
+    for (let k = 0; k < n; k++) {
+      const cx = sx(k) + r;
+      if (k % 2 === 0) { ctx.arc(cx, botY, r, Math.PI, 0, true); ctx.lineTo(sx(k + 1), topY); }
+      else { ctx.arc(cx, topY, r, Math.PI, 0, false); ctx.lineTo(sx(k + 1), k + 1 < n ? botY : o.endY); }
+    }
+    ctx.stroke();
+    ctx.beginPath(); ctx.arc(sx(0), plateT + 2, 3.5, 0, 7); ctx.fillStyle = c.ink; ctx.fill();
+    ctx.restore();
+    return { hangX: (sx(0) + tops[tops.length - 1]) / 2, hangY: plateT, loadX: (bots[0] + bots[bots.length - 1]) / 2, loadY: plateB, endX: sx(n), seg: i => sx(i) };
+  };
+
   /* Gewichtsstück (Hakengewicht) */
   D.weight = function (ctx, x, y, o = {}) {
     const c = D.colors();
